@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greenwarebags 入口網站</title>
+  <style>
+    :root{
+      --green:#126b4f;
+      --green2:#1e9f73;
+      --mint:#eaf7f1;
+      --ink:#192820;
+      --muted:#6d7c74;
+      --line:#d8e8de;
+      --white:#ffffff;
+      --blue:#1d6ef2;
+      --purple:#655cff;
+      --orange:#ff8f59;
+      --bg:#f7fbf8;
+      --shadow:0 24px 60px rgba(18,72,53,.12);
+      --radius:28px;
+      --font:"Inter","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(30,159,115,.14), transparent 28%),
+        radial-gradient(circle at 92% 6%, rgba(29,110,242,.08), transparent 24%),
+        linear-gradient(180deg, #fbfffc 0%, var(--bg) 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1280px;margin:0 auto;padding:26px 20px 46px}
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      padding:14px 18px;border:1px solid rgba(216,232,222,.75);
+      background:rgba(255,255,255,.78);backdrop-filter:blur(14px);
+      border-radius:24px;position:sticky;top:14px;z-index:20;
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      width:50px;height:50px;border-radius:18px;
+      background:linear-gradient(135deg,var(--green),#7fe0b0);
+      display:grid;place-items:center;color:#fff;font-weight:900;font-size:22px;
+      box-shadow:0 16px 34px rgba(18,107,79,.22);
+    }
+    .brand strong{display:block;font-size:20px}
+    .brand small{display:block;color:var(--muted);font-size:12px}
+    .nav-links{display:flex;gap:8px;flex-wrap:wrap}
+    .nav-links a{
+      padding:10px 14px;border-radius:999px;font-size:13px;font-weight:900;color:var(--muted);
+    }
+    .nav-links a:hover{background:var(--mint);color:var(--green)}
+    .hero{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:28px;
+      padding:36px 4px 22px;align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;padding:8px 12px;border-radius:999px;background:#e7f6ee;
+      border:1px solid #cfe9da;color:#147552;font-size:13px;font-weight:900;
+    }
+    h1{
+      font-size:clamp(36px,5vw,68px);line-height:1.02;letter-spacing:-.06em;
+      margin:18px 0 16px;
+    }
+    .hero p{font-size:17px;line-height:1.9;color:var(--muted);max-width:760px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:14px 18px;border-radius:18px;font-weight:900;border:0;cursor:pointer;
+    }
+    .btn.primary{background:linear-gradient(135deg,var(--green),#74dfad);color:#fff;box-shadow:0 18px 40px rgba(18,107,79,.22)}
+    .btn.secondary{background:#fff;border:1px solid var(--line);color:var(--ink)}
+    .hero-card{
+      border-radius:34px;background:linear-gradient(150deg,#0d241b,#123327 62%,#113b4f);
+      color:#fff;padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;
+      border-radius:999px;background:rgba(126,224,176,.14);
+    }
+    .hero-grid{
+      position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+    }
+    .hero-grid .mini{
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;padding:16px;
+    }
+    .hero-grid .mini span{display:block;color:#c7ddd1;font-size:12px}
+    .hero-grid .mini strong{display:block;font-size:25px;margin-top:6px}
+    .hero-box{
+      margin-top:16px;border-radius:24px;padding:18px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+    }
+    .hero-box .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{
+      display:inline-flex;padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.12);font-size:12px;font-weight:900;color:#d7ebe1;
+    }
+    section{padding:28px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}
+    .section-head h2{margin:0;font-size:clamp(26px,3vw,40px);letter-spacing:-.04em}
+    .section-head p{margin:0;max-width:680px;color:var(--muted);line-height:1.85}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .portal-card{
+      grid-column:span 6;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:0 16px 45px rgba(21,65,49,.08);overflow:hidden;display:flex;flex-direction:column;
+    }
+    .card-top{
+      padding:22px 22px 18px;background:linear-gradient(180deg,#fff,#f9fcfa 100%);
+      border-bottom:1px solid var(--line);
+    }
+    .type{
+      display:inline-flex;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900;margin-bottom:12px;
+    }
+    .type.official{background:#e9f8f0;color:#0f7a56}
+    .type.dashboard{background:#eef5ff;color:#225fb5}
+    .type.courier{background:#f1efff;color:#5b4be0}
+    .type.student{background:#fff1e8;color:#c86d35}
+    .portal-card h3{margin:0 0 8px;font-size:28px;letter-spacing:-.04em}
+    .portal-card p{margin:0;color:var(--muted);line-height:1.8}
+    .preview{
+      margin:18px 22px 0;border-radius:24px;border:1px solid var(--line);
+      background:linear-gradient(180deg,#ffffff,#f6faf7);padding:18px;min-height:218px;
+    }
+    .mock{
+      border-radius:20px;background:#fff;border:1px solid #e7efe9;overflow:hidden;
+      box-shadow:0 12px 28px rgba(21,65,49,.07);
+    }
+    .mock .topbar{
+      height:44px;border-bottom:1px solid #eef3ef;display:flex;align-items:center;gap:8px;padding:0 14px;background:#fbfdfc;
+    }
+    .dot{width:10px;height:10px;border-radius:999px;background:#d8e6de}
+    .mock .body{padding:16px}
+    .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+    .metric{
+      padding:12px;border-radius:16px;background:#f5faf7;border:1px solid #e3efe7;
+      text-align:center;font-size:12px;color:#688074;
+    }
+    .metric b{display:block;font-size:18px;color:#183b2e;margin-top:4px}
+    .phone-preview{
+      width:210px;margin:0 auto;border:8px solid #222;border-radius:28px;background:#fff;overflow:hidden;
+      box-shadow:0 18px 34px rgba(0,0,0,.08);
+    }
+    .phone-bar{height:20px;background:#222}
+    .phone-body{padding:12px}
+    .mini-card{
+      background:#fafcfb;border:1px solid #e8f0ea;border-radius:14px;padding:10px;margin-bottom:10px;font-size:12px;color:#6c7c74;
+    }
+    .mini-card b{display:block;color:#1d3d31;margin-bottom:4px}
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .badge{
+      display:inline-flex;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900;
+      background:#f2f8f4;color:#416b58;
+    }
+    .card-actions{
+      margin-top:auto;padding:18px 22px 22px;display:flex;gap:12px;flex-wrap:wrap;
+    }
+    .card-actions a{
+      flex:1;min-width:180px;text-align:center;padding:13px 16px;border-radius:16px;font-weight:900;
+    }
+    .go{background:linear-gradient(135deg,var(--green),#74dfad);color:#fff}
+    .ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+    .info-panel{
+      margin-top:12px;background:linear-gradient(135deg,#102d22,#133f53);color:#fff;
+      border-radius:30px;padding:26px;box-shadow:var(--shadow);
+    }
+    .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+    .info{
+      border-radius:20px;padding:16px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+    }
+    .info span{display:block;color:#c8ddd3;font-size:12px}
+    .info b{display:block;font-size:26px;margin-top:6px}
+    .footer{
+      margin-top:28px;padding:24px 0 10px;text-align:center;color:var(--muted);
+      border-top:1px solid var(--line);font-size:13px;
+    }
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .portal-card{grid-column:1/-1}
+      .info-grid{grid-template-columns:repeat(2,1fr)}
+      .nav-links{display:none}
+    }
+    @media(max-width:640px){
+      .metric-row{grid-template-columns:1fr}
+      .info-grid{grid-template-columns:1fr}
+      .card-actions a{min-width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo">GW</div>
+        <div>
+          <strong>Greenwarebags 入口網站</strong>
+          <small>一站進入官方網站、戰情室、外送員系統與學生點餐系統</small>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#portal">四大系統</a>
+        <a href="#overview">系統總覽</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <span class="eyebrow">Greenwarebags｜校園低碳訂閱與循環餐具服務入口</span>
+        <h1>一個入口，快速進入 4 個 Greenwarebags 系統。</h1>
+        <p>這個入口網站整合了 <b>官方網站</b>、<b>戰情室</b>、<b>外送員系統</b> 與 <b>學生點餐系統</b>。你可以從這裡直接進入各個功能頁，方便展示 Greenwarebags 的完整服務架構與前端原型。</p>
+        <div class="actions">
+          <a class="btn primary" href="#portal">立即進入四大系統</a>
+          <a class="btn secondary" href="official.html">先看官方網站</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-grid">
+          <div class="mini"><span>入口整合</span><strong>4 個系統</strong></div>
+          <div class="mini"><span>核心主題</span><strong>低碳循環</strong></div>
+          <div class="mini"><span>使用場景</span><strong>宿舍 × 學餐</strong></div>
+          <div class="mini"><span>展示形式</span><strong>Web Prototype</strong></div>
+        </div>
+        <div class="hero-box">
+          <div style="font-size:20px;font-weight:900;">包含內容</div>
+          <div class="legend">
+            <span class="chip">官方網站</span>
+            <span class="chip">戰情室</span>
+            <span class="chip">外送員 App</span>
+            <span class="chip">學生點餐 App</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="portal">
+      <div class="section-head">
+        <h2>四大系統入口</h2>
+        <p>每張卡片都可直接點擊進入對應系統，適合簡報展示、評審導覽與原型操作。</p>
+      </div>
+
+      <div class="grid">
+        <article class="portal-card">
+          <div class="card-top">
+            <span class="type official">官方網站</span>
+            <h3>01｜品牌與制度介紹</h3>
+            <p>介紹 Greenwarebags 的整體框架、循環品項、訂閱方案、學餐 9 折 / 85 折、優惠制度，以及商業模式與政策協作。</p>
+          </div>
+          <div class="preview">
+            <div class="mock">
+              <div class="topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="body">
+                <div class="metric-row">
+                  <div class="metric">本月循環使用<b>12,560</b></div>
+                  <div class="metric">減少一次性用品<b>3,028</b></div>
+                  <div class="metric">72h 歸還率<b>91%</b></div>
+                </div>
+                <div class="mini-card"><b>內容重點</b>整體框架、循環品項、學餐折扣、點數與優惠券、政策協作。</div>
+                <div class="badge-row">
+                  <span class="badge">品牌頁</span>
+                  <span class="badge">優惠制度</span>
+                  <span class="badge">商業模式</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="go" href="official.html">進入官方網站</a>
+          </div>
+        </article>
+
+        <article class="portal-card">
+          <div class="card-top">
+            <span class="type dashboard">戰情室</span>
+            <h3>02｜營運管理中心</h3>
+            <p>顯示宿舍回收站、店家庫存、冷藏集中區、低庫存警示、離峰補貨任務與 KPI，作為 Greenwarebags 的營運中樞。</p>
+          </div>
+          <div class="preview">
+            <div class="mock">
+              <div class="topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="body">
+                <div class="metric-row">
+                  <div class="metric">本日循環使用<b>2,480</b></div>
+                  <div class="metric">待回收 / 待洗<b>364</b></div>
+                  <div class="metric">低庫存店家<b>3</b></div>
+                </div>
+                <div class="mini-card"><b>內容重點</b>地圖節點、資產分析、營運警示、離峰補貨任務派發。</div>
+                <div class="badge-row">
+                  <span class="badge">KPI</span>
+                  <span class="badge">低庫存</span>
+                  <span class="badge">補貨任務</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="go" href="dashboard.html">進入戰情室</a>
+          </div>
+        </article>
+
+        <article class="portal-card">
+          <div class="card-top">
+            <span class="type courier">外送員系統</span>
+            <h3>03｜離峰補貨與回收</h3>
+            <p>以 Greenwarebags 自有外送員為主，支援離峰補貨、固定路線、合併配送與回收任務，強調低碳配送原則。</p>
+          </div>
+          <div class="preview">
+            <div class="phone-preview">
+              <div class="phone-bar"></div>
+              <div class="phone-body">
+                <div class="mini-card"><b>今日 4 筆任務</b>補貨任務、夜間回收、路線最佳化。</div>
+                <div class="mini-card"><b>低碳原則</b>合併配送、固定路線、低碳載具。</div>
+                <div class="mini-card"><b>接單功能</b>查看任務、接取任務、收入顯示。</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="go" href="courier.html">進入外送員系統</a>
+          </div>
+        </article>
+
+        <article class="portal-card">
+          <div class="card-top">
+            <span class="type student">學生點餐系統</span>
+            <h3>04｜學餐折扣與低碳點餐</h3>
+            <p>學生可使用學餐 9 折 / 85 折、選擇循環餐具與環保杯、累積點數與優惠券，並強化自取與校內低碳用餐。</p>
+          </div>
+          <div class="preview">
+            <div class="phone-preview">
+              <div class="phone-bar"></div>
+              <div class="phone-body">
+                <div class="mini-card"><b>Dining Pass</b>299 元 / 月，每日學餐 85 折 1 次。</div>
+                <div class="mini-card"><b>循環品項</b>餐盒、環保杯、餐具組、保溫袋。</div>
+                <div class="mini-card"><b>回饋機制</b>點數、學餐低碳券、快速取餐。</div>
+              </div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a class="go" href="student.html">進入學生點餐系統</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="info-panel">
+        <div style="font-size:30px;font-weight:900;letter-spacing:-.03em;">系統總覽</div>
+        <div style="margin-top:8px;color:#d1e7dd;line-height:1.85;">
+          Greenwarebags 以「商業模式與政策協作來達到循環永續」為核心，透過品牌網站傳遞理念、戰情室管理營運、外送員系統執行補貨與回收、學生點餐系統促進低碳用餐，形成完整的校園循環服務鏈。
+        </div>
+        <div class="info-grid">
+          <div class="info"><span>系統入口</span><b>4</b></div>
+          <div class="info"><span>主要角色</span><b>公司 / 外送員 / 店家 / 學生</b></div>
+          <div class="info"><span>主要場景</span><b>宿舍 × 學餐 × 店家</b></div>
+          <div class="info"><span>服務目標</span><b>減少一次性垃圾</b></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Greenwarebags 入口網站｜可直接點擊進入 4 個原型系統。<br>
+      適合提案展示、專題報告與評審導覽使用。
+    </div>
+  </div>
+</body>
+</html>
