@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greenwarebags 外送員系統｜離峰補貨與回收</title>
+  <style>
+    :root{--bg:#f1f4ff;--phone:#fbfcff;--ink:#20263b;--muted:#737b96;--purple:#655cff;--cyan:#43c5ff;--green:#17895f;--line:#dde3fa;--card:#fff;--shadow:0 24px 60px rgba(42,45,95,.18);--font:"Inter","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:26px 14px;font-family:var(--font);background:radial-gradient(circle at 10% 8%,rgba(101,92,255,.15),transparent 24%),radial-gradient(circle at 86% 6%,rgba(67,197,255,.16),transparent 24%),linear-gradient(160deg,#fbfcff 0%,var(--bg) 100%);color:var(--ink)}
+    .show{display:grid;grid-template-columns:minmax(320px,430px) minmax(320px,470px);gap:30px;align-items:center;max-width:1120px;width:100%}.eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(101,92,255,.12);border:1px solid rgba(101,92,255,.18);color:#5047d8;font-weight:900;font-size:13px}h1{font-size:clamp(32px,4vw,55px);line-height:1.03;letter-spacing:-.055em;margin:18px 0 14px}.intro p{color:#606983;line-height:1.85}.bullets{display:grid;gap:10px}.bullets div{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.84);border:1px solid rgba(101,92,255,.13);border-radius:18px;padding:12px 14px;box-shadow:0 12px 30px rgba(42,45,95,.08)}
+    .phone{width:min(440px,100%);min-height:860px;border:12px solid #222540;border-radius:46px;background:var(--phone);box-shadow:var(--shadow);overflow:hidden;position:relative}.phone:before{content:"";position:absolute;left:50%;top:10px;transform:translateX(-50%);width:112px;height:25px;border-radius:999px;background:#222540;z-index:4}.screen{height:860px;position:relative;overflow:hidden;background:linear-gradient(#fcfdff 0%,#f2f4ff 100%)}
+    .header{position:sticky;top:0;z-index:4;padding:44px 18px 14px;background:rgba(251,252,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(221,227,250,.84)}.row{display:flex;justify-content:space-between;align-items:center}.row small{display:block;color:var(--muted);font-size:12px}.row strong{font-size:18px}.avatar{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,var(--purple),var(--cyan));display:grid;place-items:center;color:#fff;font-weight:900}
+    .status{margin:14px 18px;border-radius:24px;padding:18px;background:linear-gradient(135deg,#dedbff,#eaf8ff);box-shadow:0 14px 34px rgba(101,92,255,.18)}.status h2{margin:0 0 6px}.status p{margin:0;color:#666d8b;font-size:13px;line-height:1.7}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.metric{background:rgba(255,255,255,.76);border:1px solid rgba(101,92,255,.12);border-radius:18px;padding:12px;text-align:center}.metric strong{display:block;font-size:22px}.metric small{font-size:11px;color:var(--muted)}
+    .tabs{display:flex;gap:8px;padding:0 18px 10px;overflow:auto}.tab{padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:900;color:var(--muted);white-space:nowrap;cursor:pointer}.tab.active{background:#28264d;color:#fff;border-color:#28264d}
+    .section{padding:0 18px;margin-top:14px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-title h3{margin:0}.section-title a{font-size:13px;font-weight:900;color:var(--purple)}
+    .task{background:#fff;border:1px solid #e1e5fb;border-radius:22px;padding:14px;box-shadow:0 14px 34px rgba(42,45,95,.08);margin-bottom:14px}.task-head{display:flex;justify-content:space-between;gap:10px}.task h4{margin:0 0 6px}.meta{font-size:13px;color:var(--muted);line-height:1.7}.prio{padding:8px 10px;border-radius:14px;font-weight:900;font-size:12px}.prio.high{background:#ffe6ed;color:#c14c72}.prio.mid{background:#fff3d8;color:#ac760c}.prio.ok{background:#e8fbf2;color:#127b51}
+    .route{margin-top:12px;padding:12px;border-radius:18px;background:#f7f7ff;border:1px solid #e4e2ff}.route strong{display:block;margin-bottom:4px}.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.tag{padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900}.tag.box{background:#eeeaff;color:#5147dd}.tag.cup{background:#edf9ff;color:#1477a8}.tag.bag{background:#e9fbf2;color:#138057}.actions{display:flex;gap:10px;margin-top:14px}.btn{flex:1;border:0;border-radius:16px;padding:13px 14px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff}.btn.secondary{background:#f7f7ff;border:1px solid #e1dcff;color:#686688}
+    .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.principle{background:#fff;border:1px solid #e1e5fb;border-radius:18px;padding:12px;text-align:center}.principle b{display:block;color:var(--green);margin-bottom:6px}.content{height:100%;overflow:auto;padding-bottom:118px}.bottom{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px;background:rgba(251,252,255,.96);backdrop-filter:blur(12px);border-top:1px solid rgba(221,227,250,.9)}.nav{text-align:center;font-size:12px;color:var(--muted);font-weight:700}.nav b{display:block;font-size:20px}.nav.active{color:var(--purple)}
+    @media(max-width:900px){.show{grid-template-columns:1fr}.intro{order:-1}}
+  </style>
+</head>
+<body>
+  <div class="show">
+    <div class="intro">
+      <span class="eyebrow">外送員系統｜Greenwarebags 自有外送員為主</span>
+      <h1>離峰補貨，不是增加碳排，而是提高一次配送效率。</h1>
+      <p>Greenwarebags 已成立公司，能以自有外送員獨立運作。Uber Eats / foodpanda 合作騎手只作為政策協作與擴充任務，避免系統完全依賴外部平台。</p>
+      <div class="bullets">
+        <div><span>🛵</span><div><strong>自有外送員主力</strong><br>可控、穩定、適合校園短距離補貨與回收。</div></div>
+        <div><span>🌱</span><div><strong>低碳配送原則</strong><br>合併配送、固定路線、電動載具優先。</div></div>
+        <div><span>📦</span><div><strong>補貨與回收兼容</strong><br>同一趟可補乾淨品，也可回收髒品至中心。</div></div>
+      </div>
+    </div>
+    <div class="phone">
+      <div class="screen"><div class="content">
+        <div class="header">
+          <div class="row"><div><small>目前角色</small><strong>Greenwarebags 自有外送員</strong></div><div class="avatar">送</div></div>
+        </div>
+        <div class="status">
+          <h2>今日 4 筆離峰任務</h2>
+          <p>系統已依戰情室低庫存資料，產生補貨與回收任務。任務採合併配送與固定路線，降低空跑與碳排。</p>
+          <div class="metrics">
+            <div class="metric"><strong>2</strong><small>補貨</small></div><div class="metric"><strong>2</strong><small>回收</small></div><div class="metric"><strong>NT$348</strong><small>預估收入</small></div>
+          </div>
+        </div>
+        <div class="tabs"><div class="tab active">補貨任務</div><div class="tab">夜間回收</div><div class="tab">低碳原則</div><div class="tab">收入</div></div>
+        <div class="section">
+          <div class="section-title"><h3>離峰補貨</h3><a>路線最佳化</a></div>
+          <div id="taskList"></div>
+        </div>
+        <div class="section">
+          <div class="section-title"><h3>三大低碳配送原則</h3></div>
+          <div class="principles">
+            <div class="principle"><b>合併配送</b><small>一趟多點</small></div>
+            <div class="principle"><b>固定路線</b><small>校園生活圈</small></div>
+            <div class="principle"><b>低碳載具</b><small>電動優先</small></div>
+          </div>
+        </div>
+        </div><div class="bottom"><div class="nav active"><b>⌂</b>任務</div><div class="nav"><b>🧭</b>路線</div><div class="nav"><b>📦</b>據點</div><div class="nav"><b>💳</b>收入</div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tasks=[
+      {title:'店家 1｜餐盒低庫存',time:'09:00-10:30',items:['餐盒 30','環保杯 20','餐具組 30'],route:'補貨站 → 店家 1 → 宿舍 A',level:'緊急',pay:96},
+      {title:'店家 5｜杯具低庫存',time:'14:00-16:30',items:['環保杯 36','餐具組 35'],route:'補貨站 → 店家 5 → 學餐區',level:'緊急',pay:82},
+      {title:'宿舍 B｜冷藏集中區回收',time:'20:30-22:00',items:['待洗餐盒 42','杯 30','保溫袋 8'],route:'宿舍 B 1F → 清洗中心',level:'回收',pay:88}
+    ];
+    function render(){
+      document.getElementById('taskList').innerHTML=tasks.map((t,i)=>`
+        <div class="task">
+          <div class="task-head"><div><h4>${t.title}</h4><div class="meta">${t.time} · ${t.route}</div></div><div class="prio ${t.level==='緊急'?'high':t.level==='回收'?'ok':'mid'}">${t.level}</div></div>
+          <div class="tags">${t.items.map(x=>`<span class="tag ${x.includes('杯')?'cup':x.includes('袋')?'bag':'box'}">${x}</span>`).join('')}</div>
+          <div class="route"><strong>配送策略</strong>合併配送 + 固定路線 + 電動載具優先</div>
+          <div class="actions"><button class="btn secondary">查看明細</button><button class="btn primary" onclick="claim(this, '${t.title}')">接取｜NT$${t.pay}</button></div>
+        </div>`).join('');
+    }
+    function claim(btn,title){btn.textContent='已接取';btn.disabled=true;btn.style.opacity='.6';alert('已接取：'+title);}
+    render();
+  </script>
+</body>
+</html>

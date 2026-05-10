@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greenwarebags 戰情室｜循環營運管理</title>
+  <style>
+    :root{--bg:#071724;--panel:#0f2638;--panel2:#132f45;--line:#234457;--text:#eef8f4;--muted:#9eb4ad;--green:#54d295;--cyan:#40d3ff;--amber:#ffc65b;--red:#ff6d83;--white:#fff;--shadow:0 24px 60px rgba(0,0,0,.28);--radius:24px;--font:"Inter","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif}
+    *{box-sizing:border-box} body{margin:0;font-family:var(--font);color:var(--text);background:radial-gradient(circle at 12% 0%,rgba(64,211,255,.13),transparent 26%),linear-gradient(145deg,#04111c 0%,var(--bg) 58%,#061b2c 100%)} button,input,select{font:inherit}
+    .app{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}.side{padding:24px 20px;border-right:1px solid rgba(255,255,255,.08);background:rgba(4,14,23,.82);position:sticky;top:0;height:100vh;overflow:auto}
+    .brand{display:flex;gap:12px;align-items:center;margin-bottom:24px}.logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--cyan));display:grid;place-items:center;color:#062016;font-weight:950}.brand strong{display:block}.brand small{color:var(--muted)}
+    .section-title{margin:20px 0 10px;color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:15px;margin-bottom:14px}
+    label{display:block;color:var(--muted);font-size:12px;margin-bottom:8px} select,input{width:100%;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.2);color:var(--text);border-radius:13px;padding:11px;outline:none}.btn{width:100%;border:0;border-radius:14px;padding:12px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--green),#cbffe3);color:#062016}.btn.secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.1)}
+    main{padding:26px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}.top h1{margin:0;font-size:clamp(28px,3.2vw,42px);letter-spacing:-.05em}.top p{color:var(--muted);line-height:1.7;max-width:850px}.pill{border:1px solid rgba(84,210,149,.25);background:rgba(84,210,149,.08);padding:10px 14px;border-radius:999px;color:#c9ffe0;font-size:13px;white-space:nowrap}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.panel{background:linear-gradient(180deg,rgba(18,43,63,.96),rgba(12,31,47,.96));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.kpi{grid-column:span 3;padding:18px;min-height:130px}.kpi small{color:var(--muted)}.kpi strong{display:block;font-size:34px;margin-top:8px;letter-spacing:-.04em}.kpi span{display:inline-flex;margin-top:10px;font-size:12px;border-radius:999px;background:rgba(255,255,255,.06);padding:6px 9px;color:#d7e8e0}
+    .map{grid-column:span 8;padding:18px}.alerts{grid-column:span 4;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.head h2{margin:0;font-size:20px}.head small{color:var(--muted)}
+    .mapbox{height:520px;position:relative;border-radius:22px;background:linear-gradient(0deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),#0a1c2c;background-size:32px 32px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+    .route{position:absolute;height:3px;background:linear-gradient(90deg,rgba(64,211,255,.25),rgba(84,210,149,.88));border-radius:999px;transform-origin:left center}.node{position:absolute;width:132px;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.1);background:rgba(9,25,39,.92);border-radius:18px;padding:12px;cursor:pointer;transition:.16s ease}.node:hover,.node.active{transform:translate(-50%,-52%);border-color:rgba(64,211,255,.35)}.node h3{font-size:14px;margin:0 0 8px}.node p{font-size:11.5px;color:var(--muted);line-height:1.5;margin:0}.status{width:13px;height:13px;border-radius:999px;display:inline-block;margin-right:6px}.ok{background:var(--green)}.warn{background:var(--amber)}.bad{background:var(--red)}.school{box-shadow:0 0 0 1px rgba(64,211,255,.08)}.store{box-shadow:0 0 0 1px rgba(255,198,91,.08)}.hub{box-shadow:0 0 0 1px rgba(84,210,149,.08)}
+    .alert{padding:14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);margin-bottom:10px}.alert strong{display:block;margin-bottom:5px}.alert p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}.tag{display:inline-flex;margin-top:8px;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:900}.tag.red{background:rgba(255,109,131,.12);color:#ff9daf}.tag.yellow{background:rgba(255,198,91,.12);color:#ffd98b}.tag.green{background:rgba(84,210,149,.12);color:#9af0c3}
+    .detail{grid-column:span 7;padding:18px}.tasks{grid-column:span 5;padding:18px}.bars{display:grid;gap:12px}.bar-row span{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:7px}.bar{height:11px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--green))}
+    table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;font-size:13px}th{color:#a7c1b7;font-size:12px}td{color:#d8e8e0}.task{padding:14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);margin-bottom:12px}.task h3{font-size:15px}.task p{font-size:13px;color:var(--muted);line-height:1.65}.task button{margin-top:10px}
+    @media(max-width:1100px){.app{grid-template-columns:1fr}.side{position:relative;height:auto}.kpi{grid-column:span 6}.map,.alerts,.detail,.tasks{grid-column:1/-1}}@media(max-width:650px){.kpi{grid-column:1/-1}.top{display:block}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><div class="logo">GW</div><div><strong>Greenwarebags 戰情室</strong><small>循環資產與校園低碳用餐管理</small></div></div>
+      <div class="section-title">篩選</div>
+      <div class="card"><label>校區 / 宿舍</label><select id="zone"><option value="all">全部區域</option><option value="A">宿舍 A</option><option value="B">宿舍 B</option><option value="C">宿舍 C</option></select></div>
+      <div class="card"><label>節點搜尋</label><input id="search" placeholder="輸入店家、宿舍或樓層" /></div>
+      <div class="card"><button class="btn" id="focus">聚焦低庫存</button><div style="height:10px"></div><button class="btn secondary" id="csv">匯出 CSV</button></div>
+      <div class="section-title">管理原則</div>
+      <div class="card" style="color:var(--muted);font-size:13px;line-height:1.8">
+        • Greenwarebags 自有外送員為主要補貨力量。<br>
+        • Uber Eats / foodpanda 為政策協作與擴充選項。<br>
+        • 高階訂閱導向學餐優惠，不鼓勵增加外送。
+      </div>
+    </aside>
+
+    <main>
+      <div class="top">
+        <div><h1>循環餐具與低碳用餐營運戰情室</h1><p>即時監控宿舍樓層回收站、一樓冷藏集中區、合作店家、學餐折扣使用率與 Greenwarebags 自有外送員補貨任務。</p></div>
+        <div class="pill">更新時間：<span id="clock"></span></div>
+      </div>
+      <section class="grid">
+        <div class="panel kpi"><small>本日循環使用</small><strong id="k1">0</strong><span>餐盒 / 杯 / 餐具組</span></div>
+        <div class="panel kpi"><small>待回收 / 待洗</small><strong id="k2">0</strong><span>1F 冷藏集中區</span></div>
+        <div class="panel kpi"><small>低庫存店家</small><strong id="k3">0</strong><span>需離峰補貨</span></div>
+        <div class="panel kpi"><small>學餐折扣使用</small><strong id="k4">0</strong><span>9 折 / 85 折</span></div>
+
+        <div class="panel map">
+          <div class="head"><h2>校園節點地圖</h2><small>點選節點查看資產狀態</small></div>
+          <div class="mapbox" id="mapbox"></div>
+        </div>
+        <div class="panel alerts">
+          <div class="head"><h2>營運警示</h2><small>低庫存 / 冷藏 / 回收</small></div>
+          <div id="alerts"></div>
+        </div>
+
+        <div class="panel detail">
+          <div class="head"><h2 id="detailTitle">節點資產分析</h2><small id="detailSub">選擇節點查看</small></div>
+          <div class="bars" id="bars"></div>
+          <div style="height:18px"></div>
+          <table><thead><tr><th>節點</th><th>餐盒</th><th>杯</th><th>餐具組</th><th>保溫袋</th><th>待回收</th><th>狀態</th></tr></thead><tbody id="table"></tbody></table>
+        </div>
+        <div class="panel tasks">
+          <div class="head"><h2>離峰補貨任務</h2><small>自有外送員優先</small></div>
+          <div id="tasks"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const nodes=[
+      {id:'sA',name:'宿舍 A 2F-6F',type:'school',zone:'A',x:17,y:22,box:182,cup:96,set:144,bag:42,ret:128,status:'ok'},
+      {id:'sB',name:'宿舍 B 2F-8F',type:'school',zone:'B',x:25,y:73,box:150,cup:84,set:130,bag:36,ret:96,status:'ok'},
+      {id:'sC',name:'宿舍 C 2F-7F',type:'school',zone:'C',x:76,y:19,box:160,cup:80,set:118,bag:32,ret:142,status:'warn'},
+      {id:'store1',name:'店家 1',type:'store',zone:'A',x:46,y:22,box:18,cup:42,set:38,bag:15,ret:0,status:'bad'},
+      {id:'store2',name:'店家 2',type:'store',zone:'A',x:60,y:42,box:62,cup:80,set:88,bag:25,ret:0,status:'ok'},
+      {id:'store3',name:'店家 3',type:'store',zone:'B',x:82,y:57,box:45,cup:30,set:72,bag:6,ret:0,status:'warn'},
+      {id:'store4',name:'店家 4',type:'store',zone:'B',x:34,y:48,box:70,cup:78,set:95,bag:21,ret:0,status:'ok'},
+      {id:'store5',name:'店家 5',type:'store',zone:'C',x:62,y:78,box:42,cup:12,set:21,bag:18,ret:0,status:'bad'},
+      {id:'hub',name:'GW 清洗補貨中心',type:'hub',zone:'all',x:49,y:57,box:430,cup:310,set:620,bag:122,ret:0,status:'ok'}
+    ];
+    const routes=[['hub','store1'],['hub','store5'],['hub','store3'],['sA','hub'],['sB','hub'],['sC','hub'],['store2','sA'],['store4','sB']];
+    const tasks=[
+      {to:'店家 1',need:'餐盒 30、杯 20、餐具組 30',time:'09:00-10:30',rider:'GW 自有外送員',level:'緊急'},
+      {to:'店家 5',need:'杯 36、餐具組 35',time:'14:00-16:30',rider:'GW 自有外送員',level:'緊急'},
+      {to:'店家 3',need:'保溫袋 16、杯 20',time:'20:30-22:00',rider:'合作騎手支援',level:'預警'}
+    ];
+    let active='hub';
+    const mapbox=document.getElementById('mapbox');
+    function statLabel(s){return s==='bad'?'低庫存':s==='warn'?'預警':'正常'}
+    function renderKpi(){
+      document.getElementById('k1').textContent=(nodes.reduce((a,n)=>a+n.box+n.cup+n.set,0)).toLocaleString();
+      document.getElementById('k2').textContent=(nodes.reduce((a,n)=>a+n.ret,0)).toLocaleString();
+      document.getElementById('k3').textContent=nodes.filter(n=>n.type==='store'&&n.status!=='ok').length;
+      document.getElementById('k4').textContent=(4820+Math.floor(Math.random()*40)).toLocaleString();
+    }
+    function renderMap(){
+      mapbox.innerHTML='';
+      const zone=document.getElementById('zone').value, q=document.getElementById('search').value.trim();
+      const filtered=nodes.filter(n=>(zone==='all'||n.zone===zone||n.zone==='all')&&(!q||n.name.includes(q)));
+      const dict=Object.fromEntries(filtered.map(n=>[n.id,n]));
+      routes.forEach(([a,b])=>{
+        if(!dict[a]||!dict[b])return;
+        const n1=dict[a],n2=dict[b],dx=n2.x-n1.x,dy=n2.y-n1.y,len=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)*180/Math.PI;
+        const line=document.createElement('div');line.className='route';line.style.left=n1.x+'%';line.style.top=n1.y+'%';line.style.width=len+'%';line.style.transform=`rotate(${ang}deg)`;mapbox.appendChild(line);
+      });
+      filtered.forEach(n=>{
+        const el=document.createElement('div');el.className=`node ${n.type} ${active===n.id?'active':''}`;el.style.left=n.x+'%';el.style.top=n.y+'%';
+        el.innerHTML=`<h3><span class="status ${n.status==='bad'?'bad':n.status==='warn'?'warn':'ok'}"></span>${n.name}</h3><p>餐盒 ${n.box}｜杯 ${n.cup}<br>餐具組 ${n.set}｜袋 ${n.bag}<br>待回收 ${n.ret}</p>`;
+        el.onclick=()=>{active=n.id;renderMap();renderDetail();};mapbox.appendChild(el);
+      });
+    }
+    function renderAlerts(){
+      const risks=nodes.filter(n=>n.status!=='ok');
+      document.getElementById('alerts').innerHTML=risks.map(n=>`<div class="alert"><strong>${n.name}</strong><p>${n.type==='school'?'回收量偏高或冷藏集中區需巡檢':'低庫存需安排 Greenwarebags 自有外送員離峰補貨。'}</p><span class="tag ${n.status==='bad'?'red':'yellow'}">${statLabel(n.status)}</span></div>`).join('');
+    }
+    function pct(v,max){return Math.max(0,Math.min(100,Math.round(v/max*100)))}
+    function renderDetail(){
+      const n=nodes.find(x=>x.id===active) || nodes[0];
+      document.getElementById('detailTitle').textContent=n.name+'｜資產狀態';
+      document.getElementById('detailSub').textContent=n.type==='store'?'店家庫存與補貨需求':'宿舍 / 中心回收與可用資產';
+      const rows=[['餐盒',n.box,450],['環保杯',n.cup,330],['餐具組',n.set,650],['保溫袋',n.bag,140],['待回收',n.ret,180]];
+      document.getElementById('bars').innerHTML=rows.map(r=>`<div class="bar-row"><span><b style="color:var(--text)">${r[0]}</b><b style="color:var(--text)">${r[1]}</b></span><div class="bar"><div class="fill" style="width:${pct(r[1],r[2])}%"></div></div></div>`).join('');
+    }
+    function renderTable(){
+      document.getElementById('table').innerHTML=nodes.map(n=>`<tr><td>${n.name}</td><td>${n.box}</td><td>${n.cup}</td><td>${n.set}</td><td>${n.bag}</td><td>${n.ret}</td><td>${statLabel(n.status)}</td></tr>`).join('');
+    }
+    function renderTasks(){
+      document.getElementById('tasks').innerHTML=tasks.map(t=>`<div class="task"><h3>${t.to}｜${t.level}</h3><p>${t.need}<br>建議時段：${t.time}<br>配送：${t.rider}</p><button class="btn" onclick="alert('任務已派發給 ${t.rider}')">派發任務</button></div>`).join('');
+    }
+    document.getElementById('zone').onchange=renderMap;document.getElementById('search').oninput=renderMap;
+    document.getElementById('focus').onclick=()=>{active='store5';renderMap();renderDetail();};
+    document.getElementById('csv').onclick=()=>{const csv=['節點,餐盒,杯,餐具組,保溫袋,待回收,狀態',...nodes.map(n=>`${n.name},${n.box},${n.cup},${n.set},${n.bag},${n.ret},${statLabel(n.status)}`)].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='greenwarebags_dashboard.csv';a.click();}
+    function clock(){document.getElementById('clock').textContent=new Date().toLocaleString('zh-TW',{hour12:false});}
+    clock();setInterval(clock,1000);renderKpi();renderMap();renderAlerts();renderDetail();renderTable();renderTasks();
+  </script>
+</body>
+</html>
